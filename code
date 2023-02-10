@@ -1,0 +1,50 @@
+def base_converter():
+
+    print("Welcome to the Number Base Converter!")
+    print("Enter the number you want to convert and the bases you want to convert from and to.")
+    number = input("Number: ")
+    from_base = int(input("Convert from base (2-36): "))
+    to_base = int(input("Convert to base (2-36): "))
+    
+    if from_base < 2 or from_base > 36 or to_base < 2 or to_base > 36:
+        print("Error: Invalid base. Please enter a base between 2 and 36.")
+        base_converter()
+    
+    else:
+        decimal = 0
+        is_negative = False
+    
+    if number[0] == '-':
+        number = number[1:]
+        is_negative = True
+        
+    for i, digit in enumerate(reversed(number)):
+        if digit.isdigit():
+            decimal += int(digit) * (from_base ** i)
+        else:
+            decimal += (ord(digit.upper()) - 55) * (from_base ** i)
+    
+    result = ''
+    if decimal == 0:
+        result = '0'
+    else:
+        while decimal > 0:
+            rem = decimal % to_base
+            if rem < 10:
+                result = str(rem) + result
+            else:
+                result = chr(rem + 55) + result
+            decimal //= to_base
+        
+    if is_negative:
+        result = '-' + result
+    
+    print(f"Result: {result}")
+    
+    play_again = input("Would you like to convert another number (Yes or No)? ").lower()
+    if play_again == "yes":
+        base_converter()
+    else:
+        print("Thank you for using the Number Base Converter. Have a great day.")
+
+base_converter()
